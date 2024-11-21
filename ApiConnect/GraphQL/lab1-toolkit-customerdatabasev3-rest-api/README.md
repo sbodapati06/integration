@@ -138,7 +138,20 @@ Save and quit. <br>
 
 ## 4. StepZen CLI - Deploy & Start <a name="stepzen-deploy"></a>
 
+
+#### Disable security - Copy the below 5 lines as-is, and paste in the command line. This will create config.yaml
+```
+echo "access:
+  policies:
+    - type: Query
+      policyDefault:
+        condition: true" > config.yaml 
+``` 
+
+Run command; <br>
+```
 stepzen start <br>
+```
 
 That should deploy GraphQL Queries into StepZen Account, output below. <br>
 ```
