@@ -110,7 +110,7 @@ stepzen import curl "http://student10-customer-databasev3-http-cp4i-ace.apps.66c
 ### 3c Tweak index.graphql files <a name="stepzen-index-files"></a>
 
 ```
-vi curl-01/index.graphql <br>
+vi curl-01/index.graphql
 ```
 
 Remove Address segment - this is already present in curl/index.graphql. <br>
