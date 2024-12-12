@@ -1,0 +1,604 @@
+{
+  "pipelineState": {
+    "doc_type": "pipeline",
+    "version": "3.0",
+    "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
+    "id": "4a811e06-dd31-4842-8441-ca0a046f86fd",
+    "primary_pipeline": "75cd2872-7dc0-486d-a0ab-80ccddc36dd7",
+    "pipelines": [
+      {
+        "id": "75cd2872-7dc0-486d-a0ab-80ccddc36dd7",
+        "nodes": [
+          {
+            "id": "bf02c41f-68b2-43a2-a031-fd78c9384979",
+            "type": "source",
+            "app_data": {
+              "node_type": "source",
+              "ui_data": {
+                "label": "DENTIST.CLAIMS",
+                "image": "/images/svg/source.svg",
+                "x_pos": 50,
+                "y_pos": 50
+              }
+            },
+            "outputs": [
+              {
+                "id": "outPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": -1
+                    },
+                    "label": "Output Port"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "dc9f2472-45ba-452d-a7d1-b1790e4bd21e",
+            "type": "source",
+            "app_data": {
+              "node_type": "source",
+              "ui_data": {
+                "label": "DENTIST.CLAIMS.ADDITIONAL_INFO",
+                "image": "/images/svg/source.svg",
+                "x_pos": 45,
+                "y_pos": 204
+              }
+            },
+            "outputs": [
+              {
+                "id": "outPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": -1
+                    },
+                    "label": "Output Port"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "87956b6e-f0a9-46cb-abf3-8cf2bc5c14a5",
+            "type": "intervalJoin",
+            "app_data": {
+              "node_type": "intervalJoin",
+              "ui_data": {
+                "label": "Join Topics",
+                "image": "/images/svg/intervalJoin.svg",
+                "x_pos": 438.9456787109375,
+                "y_pos": 121.90728759765625
+              }
+            },
+            "inputs": [
+              {
+                "id": "inPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": 2
+                    },
+                    "label": "Input Port"
+                  }
+                },
+                "links": [
+                  {
+                    "id": "4cdfb152-89fe-4247-a64d-8669f57b24f3",
+                    "node_id_ref": "dc9f2472-45ba-452d-a7d1-b1790e4bd21e",
+                    "port_id_ref": "outPort"
+                  },
+                  {
+                    "id": "c77d21ee-281e-4fc0-9a7e-f1a22aad3b1a",
+                    "node_id_ref": "bf02c41f-68b2-43a2-a031-fd78c9384979",
+                    "port_id_ref": "outPort"
+                  }
+                ]
+              }
+            ],
+            "outputs": [
+              {
+                "id": "outPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": -1
+                    },
+                    "label": "Output Port"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "ed4c3360-b482-416b-b423-8a27c78e8900",
+            "type": "transform",
+            "app_data": {
+              "node_type": "transform",
+              "ui_data": {
+                "label": "transform_1",
+                "image": "/images/svg/transform.svg",
+                "x_pos": 808.404541015625,
+                "y_pos": 122.20318603515625
+              }
+            },
+            "inputs": [
+              {
+                "id": "inPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": 1
+                    },
+                    "label": "Input Port"
+                  }
+                },
+                "links": [
+                  {
+                    "id": "c57c3082-1472-48f0-9231-6b47aed0e31d",
+                    "node_id_ref": "87956b6e-f0a9-46cb-abf3-8cf2bc5c14a5",
+                    "port_id_ref": "outPort"
+                  }
+                ]
+              }
+            ],
+            "outputs": [
+              {
+                "id": "outPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": -1
+                    },
+                    "label": "Output Port"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "efb9c422-471b-4d60-8e70-c99381f64689",
+            "type": "sink",
+            "app_data": {
+              "node_type": "sink",
+              "ui_data": {
+                "label": "DENTIST.PAYMENT",
+                "image": "/images/svg/sink.svg",
+                "x_pos": 1187.1040649414062,
+                "y_pos": 122.89645385742188
+              }
+            },
+            "inputs": [
+              {
+                "id": "inPort",
+                "app_data": {
+                  "ui_data": {
+                    "cardinality": {
+                      "min": 0,
+                      "max": 1
+                    },
+                    "label": "Input Port"
+                  }
+                },
+                "links": [
+                  {
+                    "id": "36a517fd-2fa8-4b4b-a630-dc532081b2e8",
+                    "node_id_ref": "ed4c3360-b482-416b-b423-8a27c78e8900",
+                    "port_id_ref": "outPort"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "app_data": {
+          "ui_data": {
+            "comments": []
+          }
+        },
+        "runtime_ref": ""
+      }
+    ],
+    "schemas": []
+  },
+  "contextState": {
+    "edges": [
+      {
+        "incoming": "dc9f2472-45ba-452d-a7d1-b1790e4bd21e",
+        "outgoing": "87956b6e-f0a9-46cb-abf3-8cf2bc5c14a5"
+      },
+      {
+        "incoming": "bf02c41f-68b2-43a2-a031-fd78c9384979",
+        "outgoing": "87956b6e-f0a9-46cb-abf3-8cf2bc5c14a5"
+      },
+      {
+        "incoming": "87956b6e-f0a9-46cb-abf3-8cf2bc5c14a5",
+        "outgoing": "ed4c3360-b482-416b-b423-8a27c78e8900"
+      },
+      {
+        "incoming": "ed4c3360-b482-416b-b423-8a27c78e8900",
+        "outgoing": "efb9c422-471b-4d60-8e70-c99381f64689"
+      }
+    ],
+    "nodes": [
+      {
+        "viewName": "DENTIST.CLAIMS",
+        "nodeId": "bf02c41f-68b2-43a2-a031-fd78c9384979",
+        "nodeType": "source",
+        "configuration": {
+          "bootstrapServers": [
+            "my-eem-gateway-ibm-egw-rt-1-event-automation.apps.67448d46e8a5a32b1ae1a48a.ocp.techzone.ibm.com:443"
+          ],
+          "securityProtocol": "SASL_SSL",
+          "topic": "DENTIST.CLAIMS",
+          "fields": [
+            {
+              "name": "claim-id",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "patient-id",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "patient-name",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "date-of-birth",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "service-date",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "claim-amount",
+              "selected": true,
+              "type": "BIGINT",
+              "jsonType": "bigint",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "procedure-codes",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "dentist-name",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            }
+          ],
+          "watermark": {
+            "watermarkWithEventSource": true,
+            "topicLocalTimeRequired": true,
+            "timeUnit": "MINUTE",
+            "interval": 1,
+            "watermarkColumn": "event_time"
+          },
+          "configureNewSource": false,
+          "topicIdForReuse": "3628eab4-39b1-4f7b-a9f2-717773bc3991",
+          "persistSourceTopic": true,
+          "isSourceEditable": true,
+          "format": "json",
+          "truststoreCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\nMIIMEDCCCvigAwIBAgIRAOFIgB3ZAu/3mqcl8Wma8z8wDQYJKoZIhvcNAQELBQAwUDEmMCQGA1UEChMdSUJNIEV2ZW50IEVuZHBvaW50IE1hbmFnZW1lbnQxJjAkBgNVBAMTHUlCTSBFdmVudCBFbmRwb2ludCBNYW5hZ2VtZW50MB4XDTI0MTEyNTIwMjUwOVoXDTI1MDIyMzIwMjUwOVowKDEmMCQGA1UEChMdSUJNIEV2ZW50IEVuZHBvaW50IE1hbmFnZW1lbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCkjmoHkQGbWU4Zm4pr+7qCD9WtC8uKlXou7BrYGDxJd/E1qDRwj0ImP+trrihpjFoLLlpbaipXqIMgBGIv4J8C/mCstwcx7dA1RXK25PtQHDHoX4rgURcqEa6NPpbyUYp+xAnkxvwe9Dorh4oyCdAg9y/h65bqHwGyWnedcWTezrHIaWfLGym04I7x2ALXseDch1JBfd/ZhlAav3wPDulsUeEUldL5EB/Z9+iChWfziVXSpZ7DQlHYijNVvihvjocyxbamh/+XiSCbEzb5DHpOl5z18aXJDIFjDf2yuKsTjO1egdjYTf800OsS+zHJCf8mxF34Wiq3jSbBBPAdBf/JAgMBAAGjggkLMIIJBzAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUnVjnPwm5C9eJmhZyHeC8PDZB0cYwggilBgNVHREEggicMIIImIIrbXktZWVtLWdhdGV3YXktaWJtLWVndy1zdmMuZXZlbnQtYXV0b21hdGlvboIvbXktZWVtLWdhdGV3YXktaWJtLWVndy1zdmMuZXZlbnQtYXV0b21hdGlvbi5zdmOCPW15LWVlbS1nYXRld2F5LWlibS1lZ3ctc3ZjLmV2ZW50LWF1dG9tYXRpb24uc3ZjLmNsdXN0ZXIubG9jYWyCXW15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xMi1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTctZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0yLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTMtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJdbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTEtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xOC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTYtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xNS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTEwLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtOS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE0LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTYtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC04LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtNC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE5LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtNS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE3LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTEtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0zLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb20wDQYJKoZIhvcNAQELBQADggEBAGNM4G8Wbrfswje/MRlV5RqwVkZGOvwz4Q6yK4F6RV+73r2RXAlqyiQGM8hBSsf3HrIu9Nu8VWpdg9cVLrHTS1H+jPkaeMhSxueCxP1hP+Qkg0bzU0g2ATNKH/bjVsDjdn7QHSr8l0jdF6737yrKQpB005EdDn3e/macU/cvoNKiCQg9YpjGNV94zI3+vjlfYxw0h03vLM89iMrU1fHAYo0Uv6p2syMXGRRdZbc+m1objhIAHomSuXcm1Q1btlb3mWnpNqWjwMrCuhqVJwFT/JpDx2MCfI6tsPFjbxG6+cSAsQ7q4UlqzLGVHwC5u2zxo2iV127I3/GylS0jPg5MvGY=\n-----END CERTIFICATE-----\n"
+            }
+          ],
+          "credentials": {
+            "type": "SASL",
+            "data": {
+              "username": "eem-029dc523-7627-486c-b2b2-d7ec0404e8b5",
+              "password": "70dabcb8-a7df-44d0-be3f-05aa84b026e4",
+              "mechanism": "PLAIN"
+            }
+          },
+          "topicPayload": "{\n  \"claim-id\": \"C002\",\n  \"patient-id\": \"P001\",\n  \"patient-name\": \"Edgar Glover\",\n  \"date-of-birth\": \"1/10/1959\",\n  \"service-date\": \"11/02/2024\",\n  \"claim-amount\": 1001,\n  \"procedure-codes\": \"C105, D200, E201\",\n  \"dentist-name\": \"Chester Jackson\"\n}",
+          "hasSourcePersisted": true,
+          "startUpMode": "earliest-offset",
+          "certificatesAccepted": true
+        }
+      },
+      {
+        "viewName": "DENTIST.CLAIMS.ADDITIONAL_INFO",
+        "nodeId": "dc9f2472-45ba-452d-a7d1-b1790e4bd21e",
+        "nodeType": "source",
+        "configuration": {
+          "bootstrapServers": [
+            "my-eem-gateway-ibm-egw-rt-1-event-automation.apps.67448d46e8a5a32b1ae1a48a.ocp.techzone.ibm.com:443"
+          ],
+          "securityProtocol": "SASL_SSL",
+          "topic": "DENTIST.ADDITIONAL_INFO",
+          "fields": [
+            {
+              "name": "claim-id",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "patient-id",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "patient-name",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "claim-amount",
+              "selected": true,
+              "type": "BIGINT",
+              "jsonType": "bigint",
+              "tsFormat": "NONE"
+            },
+            {
+              "name": "additional-info",
+              "selected": true,
+              "type": "STRING",
+              "jsonType": "string",
+              "tsFormat": "NONE"
+            }
+          ],
+          "watermark": {
+            "watermarkWithEventSource": true,
+            "topicLocalTimeRequired": true,
+            "timeUnit": "MINUTE",
+            "interval": 1,
+            "watermarkColumn": "event_time"
+          },
+          "configureNewSource": true,
+          "topicIdForReuse": "configureNewSource",
+          "persistSourceTopic": true,
+          "isSourceEditable": true,
+          "format": "json",
+          "certificatesAccepted": true,
+          "credentials": {
+            "type": "SASL",
+            "data": {
+              "username": "eem-af5835ef-ddcb-4206-bd9a-a50b4ce4162f",
+              "password": "18312476-8b1a-4f5b-bfe8-a06287fb11e8",
+              "mechanism": "PLAIN"
+            }
+          },
+          "truststoreCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\nMIIMEDCCCvigAwIBAgIRAOFIgB3ZAu/3mqcl8Wma8z8wDQYJKoZIhvcNAQELBQAwUDEmMCQGA1UEChMdSUJNIEV2ZW50IEVuZHBvaW50IE1hbmFnZW1lbnQxJjAkBgNVBAMTHUlCTSBFdmVudCBFbmRwb2ludCBNYW5hZ2VtZW50MB4XDTI0MTEyNTIwMjUwOVoXDTI1MDIyMzIwMjUwOVowKDEmMCQGA1UEChMdSUJNIEV2ZW50IEVuZHBvaW50IE1hbmFnZW1lbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCkjmoHkQGbWU4Zm4pr+7qCD9WtC8uKlXou7BrYGDxJd/E1qDRwj0ImP+trrihpjFoLLlpbaipXqIMgBGIv4J8C/mCstwcx7dA1RXK25PtQHDHoX4rgURcqEa6NPpbyUYp+xAnkxvwe9Dorh4oyCdAg9y/h65bqHwGyWnedcWTezrHIaWfLGym04I7x2ALXseDch1JBfd/ZhlAav3wPDulsUeEUldL5EB/Z9+iChWfziVXSpZ7DQlHYijNVvihvjocyxbamh/+XiSCbEzb5DHpOl5z18aXJDIFjDf2yuKsTjO1egdjYTf800OsS+zHJCf8mxF34Wiq3jSbBBPAdBf/JAgMBAAGjggkLMIIJBzAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUnVjnPwm5C9eJmhZyHeC8PDZB0cYwggilBgNVHREEggicMIIImIIrbXktZWVtLWdhdGV3YXktaWJtLWVndy1zdmMuZXZlbnQtYXV0b21hdGlvboIvbXktZWVtLWdhdGV3YXktaWJtLWVndy1zdmMuZXZlbnQtYXV0b21hdGlvbi5zdmOCPW15LWVlbS1nYXRld2F5LWlibS1lZ3ctc3ZjLmV2ZW50LWF1dG9tYXRpb24uc3ZjLmNsdXN0ZXIubG9jYWyCXW15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xMi1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTctZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0yLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTMtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJdbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTEtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xOC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTYtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xNS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTEwLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtOS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE0LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTYtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC04LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtNC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE5LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtNS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE3LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTEtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0zLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb20wDQYJKoZIhvcNAQELBQADggEBAGNM4G8Wbrfswje/MRlV5RqwVkZGOvwz4Q6yK4F6RV+73r2RXAlqyiQGM8hBSsf3HrIu9Nu8VWpdg9cVLrHTS1H+jPkaeMhSxueCxP1hP+Qkg0bzU0g2ATNKH/bjVsDjdn7QHSr8l0jdF6737yrKQpB005EdDn3e/macU/cvoNKiCQg9YpjGNV94zI3+vjlfYxw0h03vLM89iMrU1fHAYo0Uv6p2syMXGRRdZbc+m1objhIAHomSuXcm1Q1btlb3mWnpNqWjwMrCuhqVJwFT/JpDx2MCfI6tsPFjbxG6+cSAsQ7q4UlqzLGVHwC5u2zxo2iV127I3/GylS0jPg5MvGY=\n-----END CERTIFICATE-----\n"
+            }
+          ],
+          "topicPayload": "{\n  \"claim-id\": \"C002\",\n  \"patient-id\": \"P001\",\n  \"patient-name\": \"Edgar Glover\",\n  \"claim-amount\": 1001,\n  \"additional-info\": \"Patient needed extra care, spent an extra 30 minutes, hence the additional charges.\"\n}",
+          "hasSourcePersisted": true,
+          "startUpMode": "earliest-offset"
+        }
+      },
+      {
+        "viewName": "Join Topics",
+        "nodeId": "87956b6e-f0a9-46cb-abf3-8cf2bc5c14a5",
+        "nodeType": "intervalJoin",
+        "configuration": {
+          "joinCondition": "`DENTIST.CLAIMS.ADDITIONAL_INFO`.`claim-id` = `DENTIST.CLAIMS`.`claim-id` AND `DENTIST.CLAIMS.ADDITIONAL_INFO`.`patient-id` = `DENTIST.CLAIMS`.`patient-id`  ",
+          "timeCondition": {
+            "watchedTimeEvent": {
+              "table": "DENTIST.CLAIMS.ADDITIONAL_INFO",
+              "column": "event_time"
+            },
+            "baseTimeEvent": {
+              "table": "DENTIST.CLAIMS",
+              "column": "event_time"
+            },
+            "start": {
+              "interval": 0,
+              "timeUnit": "HOUR"
+            },
+            "end": {
+              "interval": 24,
+              "timeUnit": "HOUR"
+            }
+          },
+          "columns": [
+            {
+              "outputColumn": "claim-id",
+              "input": {
+                "column": "claim-id",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "patient-id",
+              "input": {
+                "column": "patient-id",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "patient-name",
+              "input": {
+                "column": "patient-name",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "date-of-birth",
+              "input": {
+                "column": "date-of-birth",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "service-date",
+              "input": {
+                "column": "service-date",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "claim-amount",
+              "input": {
+                "column": "claim-amount",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "procedure-codes",
+              "input": {
+                "column": "procedure-codes",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "dentist-name",
+              "input": {
+                "column": "dentist-name",
+                "table": "DENTIST.CLAIMS"
+              }
+            },
+            {
+              "outputColumn": "additional-info",
+              "input": {
+                "column": "additional-info",
+                "table": "DENTIST.CLAIMS.ADDITIONAL_INFO"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "viewName": "transform_1",
+        "nodeId": "ed4c3360-b482-416b-b423-8a27c78e8900",
+        "nodeType": "transform",
+        "configuration": {
+          "columns": [
+            {
+              "outputColumn": "claim-id",
+              "input": {
+                "column": "claim-id"
+              }
+            },
+            {
+              "outputColumn": "patient-id",
+              "input": {
+                "column": "patient-id"
+              }
+            },
+            {
+              "outputColumn": "patient-name",
+              "input": {
+                "column": "patient-name"
+              }
+            },
+            {
+              "outputColumn": "date-of-birth",
+              "input": {
+                "column": "date-of-birth"
+              }
+            },
+            {
+              "outputColumn": "service-date",
+              "input": {
+                "column": "service-date"
+              }
+            },
+            {
+              "outputColumn": "claim-amount",
+              "input": {
+                "column": "claim-amount"
+              }
+            },
+            {
+              "outputColumn": "procedure-codes",
+              "input": {
+                "column": "procedure-codes"
+              }
+            },
+            {
+              "outputColumn": "dentist-name",
+              "input": {
+                "column": "dentist-name"
+              }
+            },
+            {
+              "outputColumn": "additional-info",
+              "input": {
+                "column": "additional-info"
+              }
+            },
+            {
+              "outputColumn": "message",
+              "input": {
+                "column": ""
+              },
+              "expression": "'Ready for payment'\t",
+              "castType": "STRING"
+            }
+          ]
+        }
+      },
+      {
+        "viewName": "DENTIST.PAYMENT",
+        "nodeId": "efb9c422-471b-4d60-8e70-c99381f64689",
+        "nodeType": "sink",
+        "configuration": {
+          "topic": "DENTIST.PAYMENT",
+          "bootstrapServers": [
+            "my-eem-gateway-ibm-egw-rt-1-event-automation.apps.67448d46e8a5a32b1ae1a48a.ocp.techzone.ibm.com:443"
+          ],
+          "securityProtocol": "SASL_SSL",
+          "certificatesAccepted": true,
+          "credentials": {
+            "type": "SASL",
+            "data": {
+              "username": "eem-1e7f3e93-205c-4c1b-b5dd-f1ab84cc0d68",
+              "password": "ed8d5a54-6498-4a88-95ab-ae02dc65046a",
+              "mechanism": "PLAIN"
+            }
+          },
+          "truststoreCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\nMIIMEDCCCvigAwIBAgIRAOFIgB3ZAu/3mqcl8Wma8z8wDQYJKoZIhvcNAQELBQAwUDEmMCQGA1UEChMdSUJNIEV2ZW50IEVuZHBvaW50IE1hbmFnZW1lbnQxJjAkBgNVBAMTHUlCTSBFdmVudCBFbmRwb2ludCBNYW5hZ2VtZW50MB4XDTI0MTEyNTIwMjUwOVoXDTI1MDIyMzIwMjUwOVowKDEmMCQGA1UEChMdSUJNIEV2ZW50IEVuZHBvaW50IE1hbmFnZW1lbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCkjmoHkQGbWU4Zm4pr+7qCD9WtC8uKlXou7BrYGDxJd/E1qDRwj0ImP+trrihpjFoLLlpbaipXqIMgBGIv4J8C/mCstwcx7dA1RXK25PtQHDHoX4rgURcqEa6NPpbyUYp+xAnkxvwe9Dorh4oyCdAg9y/h65bqHwGyWnedcWTezrHIaWfLGym04I7x2ALXseDch1JBfd/ZhlAav3wPDulsUeEUldL5EB/Z9+iChWfziVXSpZ7DQlHYijNVvihvjocyxbamh/+XiSCbEzb5DHpOl5z18aXJDIFjDf2yuKsTjO1egdjYTf800OsS+zHJCf8mxF34Wiq3jSbBBPAdBf/JAgMBAAGjggkLMIIJBzAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUnVjnPwm5C9eJmhZyHeC8PDZB0cYwggilBgNVHREEggicMIIImIIrbXktZWVtLWdhdGV3YXktaWJtLWVndy1zdmMuZXZlbnQtYXV0b21hdGlvboIvbXktZWVtLWdhdGV3YXktaWJtLWVndy1zdmMuZXZlbnQtYXV0b21hdGlvbi5zdmOCPW15LWVlbS1nYXRld2F5LWlibS1lZ3ctc3ZjLmV2ZW50LWF1dG9tYXRpb24uc3ZjLmNsdXN0ZXIubG9jYWyCXW15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xMi1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTctZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0yLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTMtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJdbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTEtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xOC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgl9teS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTYtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJgbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0xNS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTEwLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtOS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE0LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTYtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC04LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtNC1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE5LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CX215LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtNS1ldmVudC1hdXRvbWF0aW9uLmFwcHMuNjc0NDhkNDZlOGE1YTMyYjFhZTFhNDhhLm9jcC50ZWNoem9uZS5pYm0uY29tgmBteS1lZW0tZ2F0ZXdheS1pYm0tZWd3LXJ0LTE3LWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb22CYG15LWVlbS1nYXRld2F5LWlibS1lZ3ctcnQtMTEtZXZlbnQtYXV0b21hdGlvbi5hcHBzLjY3NDQ4ZDQ2ZThhNWEzMmIxYWUxYTQ4YS5vY3AudGVjaHpvbmUuaWJtLmNvbYJfbXktZWVtLWdhdGV3YXktaWJtLWVndy1ydC0zLWV2ZW50LWF1dG9tYXRpb24uYXBwcy42NzQ0OGQ0NmU4YTVhMzJiMWFlMWE0OGEub2NwLnRlY2h6b25lLmlibS5jb20wDQYJKoZIhvcNAQELBQADggEBAGNM4G8Wbrfswje/MRlV5RqwVkZGOvwz4Q6yK4F6RV+73r2RXAlqyiQGM8hBSsf3HrIu9Nu8VWpdg9cVLrHTS1H+jPkaeMhSxueCxP1hP+Qkg0bzU0g2ATNKH/bjVsDjdn7QHSr8l0jdF6737yrKQpB005EdDn3e/macU/cvoNKiCQg9YpjGNV94zI3+vjlfYxw0h03vLM89iMrU1fHAYo0Uv6p2syMXGRRdZbc+m1objhIAHomSuXcm1Q1btlb3mWnpNqWjwMrCuhqVJwFT/JpDx2MCfI6tsPFjbxG6+cSAsQ7q4UlqzLGVHwC5u2zxo2iV127I3/GylS0jPg5MvGY=\n-----END CERTIFICATE-----\n"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "flowDetails": {
+    "flowName": "ep-dental-claims-additional-info-processing",
+    "flowDescription": "Process additional info from the dentist",
+    "flowVersion": 9
+  }
+}

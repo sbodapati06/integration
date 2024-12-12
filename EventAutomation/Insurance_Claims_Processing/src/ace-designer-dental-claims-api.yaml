@@ -1,0 +1,291 @@
+$integration: http://ibm.com/appconnect/integration/v2/integrationFile
+integration:
+  type: api
+  trigger-interfaces:
+    trigger-interface-1:
+      triggers:
+        createClaim:
+          assembly:
+            $ref: '#/integration/assemblies/assembly-1'
+          input-context:
+            data: createClaim
+          output-context:
+            data: createClaim
+        createAdditional_info:
+          assembly:
+            $ref: '#/integration/assemblies/assembly-2'
+          input-context:
+            data: createAdditional_info
+          output-context:
+            data: createAdditional_info
+      options:
+        resources:
+          - business-object: claim
+            triggers:
+              create: createClaim
+            model:
+              $ref: '#/models/claim'
+          - business-object: additional_info
+            triggers:
+              create: createAdditional_info
+            model:
+              $ref: '#/models/additional_info'
+      type: api-trigger
+  action-interfaces:
+    action-interface-1:
+      type: api-action
+      business-object: message
+      connector-type: kafka
+      account-name: Account 1
+      actions:
+        CREATE: {}
+    action-interface-2:
+      type: api-action
+      business-object: message
+      connector-type: kafka
+      account-name: Account 1
+      actions:
+        CREATE: {}
+    action-interface-3:
+      type: api-action
+      business-object: message
+      connector-type: kafka
+      account-name: Account 1
+      actions:
+        CREATE: {}
+    action-interface-4:
+      type: api-action
+      business-object: message
+      connector-type: kafka
+      account-name: Account 1
+      actions:
+        CREATE: {}
+  assemblies:
+    assembly-1:
+      assembly:
+        execute:
+          - create-action:
+              name: Kafka Send message 3
+              target:
+                $ref: '#/integration/action-interfaces/action-interface-3'
+              map:
+                mappings:
+                  - Payload:
+                      template: >-
+                        {"claim-id": "{{$Request."claim-id"}}", "patient-id":
+                        "{{$Request."patient-id"}}","claim-amount":{{$Request."claim-amount"}},
+                        "message": "Thank you for sending the claim for
+                        {{$Request."patient-name"}}"}
+                  - Topic:
+                      template: DENTIST.NOTIFY
+                $map: http://ibm.com/appconnect/map/v1
+                input:
+                  - variable: flowDetails
+                    $ref: '#/flowDetails'
+                  - variable: Request
+                    $ref: '#/trigger/payload'
+          - create-action:
+              name: Kafka Send message
+              target:
+                $ref: '#/integration/action-interfaces/action-interface-1'
+              map:
+                mappings:
+                  - Payload:
+                      template: '{{$Request}}'
+                  - Topic:
+                      template: DENTIST.CLAIMS
+                $map: http://ibm.com/appconnect/map/v1
+                input:
+                  - variable: KafkaSendmessage3
+                    $ref: '#/node-output/Kafka Send message 3/response/payload'
+                  - variable: flowDetails
+                    $ref: '#/flowDetails'
+                  - variable: Request
+                    $ref: '#/trigger/payload'
+          - response:
+              name: response
+              reply-maps:
+                - title: claim successfully created
+                  status-code: 201
+                  map:
+                    mappings:
+                      - claim-id:
+                          template: '{{$Request."claim-id"}}'
+                      - message:
+                          template: >-
+                            Thank you send sending the claim for 
+                            {{$Request."patient-name"}}
+                      - patient-id:
+                          template: '{{$Request."patient-id"}}'
+                    $map: http://ibm.com/appconnect/map/v1
+                    input:
+                      - variable: KafkaSendmessage
+                        $ref: '#/node-output/Kafka Send message/response/payload'
+                      - variable: flowDetails
+                        $ref: '#/flowDetails'
+                      - variable: Request
+                        $ref: '#/trigger/payload'
+    assembly-2:
+      assembly:
+        execute:
+          - create-action:
+              name: Kafka Send message 4
+              target:
+                $ref: '#/integration/action-interfaces/action-interface-4'
+              map:
+                mappings:
+                  - Payload:
+                      template: >-
+                        {"claim-id": "{{$Request."claim-id"}}", "patient-id":
+                        "{{$Request."patient-id"}}","claim-amount":{{$Request."claim-amount"}},
+                        "message": "Thank you for sending the additional claim
+                        info for {{$Request."patient-name"}}"}
+                  - Topic:
+                      template: DENTIST.NOTIFY
+                $map: http://ibm.com/appconnect/map/v1
+                input:
+                  - variable: flowDetails
+                    $ref: '#/flowDetails'
+                  - variable: Request
+                    $ref: '#/trigger/payload'
+          - create-action:
+              name: Kafka Send message 2
+              target:
+                $ref: '#/integration/action-interfaces/action-interface-2'
+              map:
+                mappings:
+                  - Payload:
+                      template: '{{$Request}}'
+                  - Topic:
+                      template: DENTIST.ADDITIONAL_INFO
+                $map: http://ibm.com/appconnect/map/v1
+                input:
+                  - variable: KafkaSendmessage4
+                    $ref: '#/node-output/Kafka Send message 4/response/payload'
+                  - variable: flowDetails
+                    $ref: '#/flowDetails'
+                  - variable: Request
+                    $ref: '#/trigger/payload'
+          - response:
+              name: response 2
+              reply-maps:
+                - title: additional_info successfully created
+                  status-code: 201
+                  map:
+                    mappings:
+                      - claim-id:
+                          template: '{{$Request."claim-id"}}'
+                      - message:
+                          template: >-
+                            Thank you for sending additional info for
+                            {{$Request."patient-name"}}
+                      - patient-id:
+                          template: '{{$Request."patient-id"}}'
+                    $map: http://ibm.com/appconnect/map/v1
+                    input:
+                      - variable: KafkaSendmessage2
+                        $ref: '#/node-output/Kafka Send message 2/response/payload'
+                      - variable: flowDetails
+                        $ref: '#/flowDetails'
+                      - variable: Request
+                        $ref: '#/trigger/payload'
+  name: 1-dental-claims-api
+models:
+  claim:
+    name: claim
+    plural: claim
+    properties:
+      claim-id:
+        required: false
+        id: true
+        type: string
+      patient-id:
+        required: false
+        id: false
+        type: string
+      patient-name:
+        required: false
+        id: false
+        type: string
+      date-of-birth:
+        required: false
+        id: false
+        type: string
+      service-date:
+        required: false
+        id: false
+        type: string
+      claim-amount:
+        required: false
+        id: false
+        type: number
+      procedure-codes:
+        required: false
+        id: false
+        type: string
+      dentist-name:
+        required: false
+        id: false
+        type: string
+      message:
+        required: false
+        id: false
+        type: string
+    operations:
+      create: '#/integration/assemblies/assembly-1'
+    description: ''
+  additional_info:
+    name: additional_info
+    plural: additional_info
+    properties:
+      claim-id:
+        required: false
+        id: true
+        type: string
+      patient-id:
+        required: false
+        id: false
+        type: string
+      patient-name:
+        required: false
+        id: false
+        type: string
+      claim-amount:
+        required: false
+        id: false
+        type: number
+      additional-info:
+        required: false
+        id: false
+        type: string
+      message:
+        required: false
+        id: false
+        type: string
+    operations:
+      create: '#/integration/assemblies/assembly-2'
+    description: ''
+x-ibm-configuration:
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+      - invoke:
+          title: Invoke flow
+          version: 2.0.0
+          verb: keep
+          target-url: $(app-connect-designer-url)$(request.path)
+          follow-redirects: false
+          timeout: 60
+          parameter-control:
+            type: blocklist
+          header-control:
+            type: blocklist
+          inject-proxy-headers: true
+          username: $(app-connect-designer-username)
+          password: $(app-connect-designer-password)
