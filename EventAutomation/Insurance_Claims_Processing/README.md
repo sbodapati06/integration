@@ -226,7 +226,7 @@ Similarly, "Generate access credentials" for the DENTIST.CLAIMS, and DENTIST.PAY
 
 ### 4d. Event Processing - Correlate Claims with Additional Claim Info Topics <a name="ep-correlate-topics"></a>
 
-Download the **ep-dental-claims-additional-info-processing.jsob** <br>
+Download the **ep-dental-claims-additional-info-processing.json** <br>
     Click - [here](./src/ep-dental-claims-additional-info-processing.json)
 
 
